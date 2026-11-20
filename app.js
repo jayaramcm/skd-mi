@@ -1006,8 +1006,22 @@ document.querySelectorAll('form[data-skd-form]').forEach((form) => {
 });
 
 /* ==========================================================================
-   13. ABOUT PAGE: 4-CHAPTER STORY PROGRESSION (Auto-Cycling 5s Timer + Click/Hover/Focus)
+   13. ABOUT PAGE: MISSION CARD READ MORE / READ LESS TOGGLE
    ========================================================================== */
+const aboutMissionCard = document.getElementById('about-mission-card');
+const aboutMissionToggle = document.getElementById('about-mission-toggle');
+
+if (aboutMissionCard && aboutMissionToggle) {
+  const labelEl = aboutMissionToggle.querySelector('.about-vm-toggle-btn__label');
+  aboutMissionToggle.addEventListener('click', () => {
+    const isExpanded = aboutMissionCard.classList.toggle('is-expanded');
+    aboutMissionToggle.setAttribute('aria-expanded', String(isExpanded));
+    if (labelEl) {
+      labelEl.textContent = isExpanded ? 'Read Less' : 'Read More';
+    }
+  });
+}
+
 const aboutChaptersGrid = document.getElementById('about-chapters-grid');
 
 if (aboutChaptersGrid) {
@@ -1180,78 +1194,171 @@ if (versionSwitcherPill && !versionSwitcherPill.querySelector('[data-red-option]
 }
 
 /* ==========================================================================
-   16. ONGOING PROJECTS: INTERACTIVE FLOOR PLAN SWITCHER (200 / 180 / 167 SQ. YD + Floor Thumbnails)
+   16. ONGOING PROJECTS: UNIFIED 2-CONTAINER FLOOR PLAN EXPLORER (East/West + 200/180/167 SQ. YD + 2x2 Stack)
    ========================================================================== */
-const floorplanSizeBtns = Array.from(document.querySelectorAll('.floorplan-size-btn'));
-const villaPlanCards = Array.from(document.querySelectorAll('.villa-plan-card'));
+const fpExplorer = document.getElementById('floorplan-unified-explorer');
 
-// Exact BUA specification data from the live site (/our-projects/ongoing)
-const VILLA_BUA_SPECS = {
+const VILLA_CONFIG_DATA = {
   East: {
-    200: { ground: '1361 Sft', first: '1416 SFT', second: '1301 Sft', parking: '199 Sft', total: '2700 Sft' },
-    180: { ground: '959 Sft', first: '1092 SFT', second: '890 Sft', parking: '122 Sft', total: '2442 Sft' },
-    167: { ground: '959 Sft', first: '1092 SFT', second: '890 Sft', parking: '122 Sft', total: '2442 Sft' },
+    badge: '100% Vaastu Compliant · Morning Sun',
+    desc: 'Wake up to the first rays of the sun in our beautifully designed East-Facing Villas — a perfect blend of luxury, light, and positive energy. Built as per Vastu principles, each villa is thoughtfully planned to welcome natural brightness and ventilation throughout the day.',
+    mainImages: {
+      elevation: 'assets/images/fp-east-elevation-16x9.jpg',
+      ground: 'assets/images/fp-east-ground-upright.jpg',
+      first: 'assets/images/fp-east-first-upright.jpg',
+      second: 'assets/images/fp-east-second-upright.jpg',
+    },
+    thumbImages: {
+      elevation: 'assets/images/fp-east-elevation-16x9.jpg',
+      ground: 'assets/images/fp-east-ground.jpg',
+      first: 'assets/images/fp-east-first.jpg',
+      second: 'assets/images/fp-east-second.jpg',
+    },
+    specs: {
+      200: { ground: '1361 Sft', first: '1416 SFT', second: '1301 Sft', parking: '199 Sft', total: '2700 Sft' },
+      180: { ground: '959 Sft', first: '1092 SFT', second: '890 Sft', parking: '122 Sft', total: '2442 Sft' },
+      167: { ground: '959 Sft', first: '1092 SFT', second: '890 Sft', parking: '122 Sft', total: '2442 Sft' },
+    },
   },
   West: {
-    200: { ground: '1361 Sft', first: '1419 SFT', second: '1301 Sft', parking: '191 Sft', total: '2700 Sft' },
-    180: { ground: '959 Sft', first: '1092 SFT', second: '890 Sft', parking: '122 Sft', total: '2442 Sft' },
-    167: { ground: '959 Sft', first: '1082 SFT', second: '916 Sft', parking: '122 Sft', total: '2442 Sft' },
+    badge: '100% Vaastu Compliant · Golden Sunset',
+    desc: 'Experience stunning evening views and golden sunsets from the West-Facing Villas at Rock Palms Abound Serenity. Designed to capture the beauty of the setting sun, these villas offer warmth, energy, and a vibrant ambiance that lasts through the day.',
+    mainImages: {
+      elevation: 'assets/images/fp-west-elevation-16x9.jpg',
+      ground: 'assets/images/fp-west-ground-upright.jpg',
+      first: 'assets/images/fp-west-first-upright.jpg',
+      second: 'assets/images/fp-west-second-upright.jpg',
+    },
+    thumbImages: {
+      elevation: 'assets/images/fp-west-elevation-16x9.jpg',
+      ground: 'assets/images/fp-west-ground.jpg',
+      first: 'assets/images/fp-west-first.jpg',
+      second: 'assets/images/fp-west-second.jpg',
+    },
+    specs: {
+      200: { ground: '1361 Sft', first: '1419 SFT', second: '1301 Sft', parking: '191 Sft', total: '2700 Sft' },
+      180: { ground: '959 Sft', first: '1092 SFT', second: '890 Sft', parking: '122 Sft', total: '2442 Sft' },
+      167: { ground: '959 Sft', first: '1082 SFT', second: '916 Sft', parking: '122 Sft', total: '2442 Sft' },
+    },
   },
 };
 
-if (floorplanSizeBtns.length > 0 && villaPlanCards.length > 0) {
-  floorplanSizeBtns.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const plotSize = btn.getAttribute('data-plot-size') || '200';
-      floorplanSizeBtns.forEach((b) => {
-        const isCurrent = b === btn;
-        b.classList.toggle('is-active', isCurrent);
-        b.setAttribute('aria-selected', String(isCurrent));
-      });
+const LEVEL_LABELS = {
+  elevation: '3D Elevation',
+  ground: 'Ground Floor',
+  first: 'First Floor',
+  second: 'Second Floor',
+};
 
-      villaPlanCards.forEach((card) => {
-        const dir = card.getAttribute('data-villa-direction') || 'East';
-        const spec = VILLA_BUA_SPECS[dir]?.[plotSize];
-        card.querySelectorAll('.js-plot-size-num').forEach((el) => {
-          el.textContent = plotSize;
-        });
-        if (spec) {
-          const groundEl = card.querySelector('.js-bua-ground');
-          const firstEl = card.querySelector('.js-bua-first');
-          const secondEl = card.querySelector('.js-bua-second');
-          const parkingEl = card.querySelector('.js-bua-parking');
-          const totalEl = card.querySelector('.js-bua-total');
-          if (groundEl) groundEl.textContent = spec.ground;
-          if (firstEl) firstEl.textContent = spec.first;
-          if (secondEl) secondEl.textContent = spec.second;
-          if (parkingEl) parkingEl.textContent = spec.parking;
-          if (totalEl) totalEl.textContent = spec.total;
-        }
-      });
+if (fpExplorer) {
+  const facingBtns = Array.from(document.querySelectorAll('[data-villa-facing]'));
+  const plotBtns = Array.from(document.querySelectorAll('#floorplan-plot-tabs [data-plot-size]'));
+  const thumbBtns = Array.from(document.querySelectorAll('#fp-thumbs-grid [data-fp-level]'));
+
+  const mainImg = document.getElementById('fp-main-img');
+  const stagePill = document.getElementById('fp-stage-pill');
+  const zoomBtn = document.getElementById('fp-zoom-btn');
+  const vaastuBadge = document.getElementById('fp-vaastu-badge');
+  const configTitle = document.getElementById('fp-config-title');
+  const configDesc = document.getElementById('fp-config-desc');
+
+  const thumbElevation = document.getElementById('fp-thumb-img-elevation');
+  const thumbGround = document.getElementById('fp-thumb-img-ground');
+  const thumbFirst = document.getElementById('fp-thumb-img-first');
+  const thumbSecond = document.getElementById('fp-thumb-img-second');
+
+  const compassTitle = document.getElementById('fp-compass-title');
+  const compassSub = document.getElementById('fp-compass-sub');
+  const buaGround = document.getElementById('fp-bua-ground');
+  const buaFirst = document.getElementById('fp-bua-first');
+  const buaSecond = document.getElementById('fp-bua-second');
+  const buaParking = document.getElementById('fp-bua-parking');
+  const buaTotal = document.getElementById('fp-bua-total');
+
+  let currentFacing = 'East';
+  let currentPlot = '200';
+  let currentLevel = 'elevation';
+
+  const syncFloorPlanExplorer = () => {
+    const data = VILLA_CONFIG_DATA[currentFacing];
+    if (!data) return;
+    const spec = data.specs[currentPlot];
+    const activeImgUrl = data.mainImages[currentLevel];
+    const levelLabel = LEVEL_LABELS[currentLevel] || '3D Elevation';
+    const fullHeading = `${currentPlot} SQ.YD ${currentFacing} Facing Villa`;
+
+    if (vaastuBadge) vaastuBadge.textContent = data.badge;
+    if (configTitle) configTitle.textContent = fullHeading;
+    if (configDesc) configDesc.textContent = data.desc;
+
+    if (thumbElevation) thumbElevation.src = data.thumbImages.elevation;
+    if (thumbGround) thumbGround.src = data.thumbImages.ground;
+    if (thumbFirst) thumbFirst.src = data.thumbImages.first;
+    if (thumbSecond) thumbSecond.src = data.thumbImages.second;
+
+    if (mainImg && activeImgUrl) {
+      mainImg.src = activeImgUrl;
+      mainImg.alt = `${fullHeading} — ${levelLabel}`;
+      const mainStage = mainImg.closest('.villa-plan-main-stage');
+      if (mainStage) {
+        mainStage.classList.toggle('is-floorplan-diagram', currentLevel !== 'elevation');
+      }
+    }
+    if (stagePill) {
+      stagePill.textContent = `${fullHeading} · ${levelLabel}`;
+    }
+    if (zoomBtn && activeImgUrl) {
+      zoomBtn.setAttribute('data-lightbox-src', activeImgUrl);
+      zoomBtn.setAttribute('data-lightbox-title', `${fullHeading} (${levelLabel}) — Rock Palms Abound Serenity`);
+    }
+
+    if (compassTitle) compassTitle.textContent = `${currentPlot} SQ.YD`;
+    if (compassSub) compassSub.textContent = `${currentFacing.toUpperCase()} FACING`;
+
+    if (spec) {
+      if (buaGround) buaGround.textContent = spec.ground;
+      if (buaFirst) buaFirst.textContent = spec.first;
+      if (buaSecond) buaSecond.textContent = spec.second;
+      if (buaParking) buaParking.textContent = spec.parking;
+      if (buaTotal) buaTotal.textContent = spec.total;
+    }
+
+    facingBtns.forEach((btn) => {
+      const isMatch = btn.getAttribute('data-villa-facing') === currentFacing;
+      btn.classList.toggle('is-active', isMatch);
+      btn.setAttribute('aria-selected', String(isMatch));
+    });
+
+    plotBtns.forEach((btn) => {
+      const isMatch = btn.getAttribute('data-plot-size') === currentPlot;
+      btn.classList.toggle('is-active', isMatch);
+      btn.setAttribute('aria-selected', String(isMatch));
+    });
+
+    thumbBtns.forEach((btn) => {
+      const isMatch = btn.getAttribute('data-fp-level') === currentLevel;
+      btn.classList.toggle('is-active', isMatch);
+    });
+  };
+
+  facingBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      currentFacing = btn.getAttribute('data-villa-facing') || 'East';
+      syncFloorPlanExplorer();
     });
   });
 
-  // Floor level thumbnail switcher inside each villa card
-  villaPlanCards.forEach((card) => {
-    const dir = card.getAttribute('data-villa-direction') || 'East';
-    const mainImg = card.querySelector('.js-villa-main-img');
-    const zoomBtn = card.querySelector('.js-villa-zoom-btn');
-    const thumbBtns = Array.from(card.querySelectorAll('.villa-thumb-btn'));
+  plotBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      currentPlot = btn.getAttribute('data-plot-size') || '200';
+      syncFloorPlanExplorer();
+    });
+  });
 
-    thumbBtns.forEach((thumb) => {
-      thumb.addEventListener('click', () => {
-        const src = thumb.getAttribute('data-plan-img');
-        const label = thumb.getAttribute('data-plan-label') || 'Floor Plan';
-        if (src && mainImg) {
-          mainImg.src = src;
-          mainImg.alt = `${dir} Facing Villa — ${label}`;
-        }
-        if (src && zoomBtn) {
-          zoomBtn.setAttribute('data-lightbox-src', src);
-          zoomBtn.setAttribute('data-lightbox-title', `${dir} Facing Villa (${label}) — Rock Palms Abound Serenity`);
-        }
-        thumbBtns.forEach((t) => t.classList.toggle('is-active', t === thumb));
-      });
+  thumbBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      currentLevel = btn.getAttribute('data-fp-level') || 'elevation';
+      syncFloorPlanExplorer();
     });
   });
 }
@@ -2051,4 +2158,84 @@ if (blogsDirectoryView && blogArticleView) {
   if (initialSlug) {
     renderBlogArticle(initialSlug, false);
   }
+}
+
+/* ==========================================================================
+   17. ONGOING PROJECTS: CLUBHOUSE & AMENITIES AERIAL MAP PINPOINTS (OPTION A) + SPLIT LIST (OPTION B)
+   ========================================================================== */
+const amenitiesViewSwitcher = document.getElementById('amenities-view-switcher');
+const amenitiesOptionA = document.getElementById('amenities-option-a');
+const amenitiesOptionB = document.getElementById('amenities-option-b');
+const amenitiesHeaderCopy = document.getElementById('amenities-header-copy');
+const amenitiesMapHeader = document.getElementById('amenities-map-header');
+const aerialMapStage = document.getElementById('aerial-map-stage');
+
+if (amenitiesViewSwitcher && amenitiesOptionA && amenitiesOptionB) {
+  const viewBtns = Array.from(amenitiesViewSwitcher.querySelectorAll('[data-amenities-view]'));
+  viewBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const targetView = btn.getAttribute('data-amenities-view');
+      const isOptionA = targetView === 'option-a';
+      viewBtns.forEach((b) => {
+        const active = b === btn;
+        b.classList.toggle('is-active', active);
+        b.setAttribute('aria-pressed', String(active));
+      });
+      amenitiesOptionA.classList.toggle('is-hidden', !isOptionA);
+      amenitiesOptionA.hidden = !isOptionA;
+      amenitiesOptionB.classList.toggle('is-hidden', isOptionA);
+      amenitiesOptionB.hidden = isOptionA;
+      if (amenitiesHeaderCopy) {
+        amenitiesHeaderCopy.classList.toggle('is-hidden', !isOptionA);
+        amenitiesHeaderCopy.hidden = !isOptionA;
+      }
+      if (amenitiesMapHeader) {
+        amenitiesMapHeader.classList.toggle('is-option-b', !isOptionA);
+      }
+    });
+  });
+}
+
+if (aerialMapStage) {
+  const zonePanels = Array.from(aerialMapStage.querySelectorAll('[data-zone-panel]'));
+  const zoneSwitchBtns = Array.from(aerialMapStage.querySelectorAll('[data-aerial-zone-switch]'));
+  const aerialPins = Array.from(aerialMapStage.querySelectorAll('.aerial-pin'));
+
+  // Make map pins keyboard & touch accessible for mobile tap-to-inspect
+  aerialPins.forEach((pin, idx) => {
+    if (!pin.hasAttribute('tabindex')) pin.setAttribute('tabindex', '0');
+    if (!pin.hasAttribute('role')) pin.setAttribute('role', 'button');
+    if (idx === 0 || idx === 9) pin.classList.add('is-active');
+
+    const activatePin = (event) => {
+      event.stopPropagation();
+      const parentPanel = pin.closest('[data-zone-panel]');
+      const siblingPins = parentPanel
+        ? Array.from(parentPanel.querySelectorAll('.aerial-pin'))
+        : aerialPins;
+      siblingPins.forEach((p) => p.classList.toggle('is-active', p === pin));
+    };
+
+    pin.addEventListener('click', activatePin);
+    pin.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        activatePin(event);
+      }
+    });
+  });
+
+  zoneSwitchBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const targetZone = btn.getAttribute('data-aerial-zone-switch');
+      zoneSwitchBtns.forEach((b) => {
+        const isMatch = b === btn;
+        b.classList.toggle('is-active', isMatch);
+        b.setAttribute('aria-pressed', String(isMatch));
+      });
+      zonePanels.forEach((panel) => {
+        panel.classList.toggle('is-active', panel.getAttribute('data-zone-panel') === targetZone);
+      });
+    });
+  });
 }

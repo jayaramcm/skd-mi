@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="google-site-verification" content="l2DpLhpATEKh6-07Cgp-dvvUUeRcv5qAhG_S4uqRLrA">
 
   <!-- Page Title, Description & Canonical -->
@@ -300,7 +300,7 @@
                 <span aria-current="page">About Us</span>
               </div>
 
-              <h1 class="about-hero-title" id="about-page-title">Crafting Tranquil Luxury for a Modern Hyderabad</h1>
+              <h1 class="about-hero-title" id="about-page-title">Where Architecture, Nature &amp; Comfort Coexist</h1>
 
               <div class="about-hero-narrative">
                 <p>
@@ -325,9 +325,6 @@
                   commandfor="site-visit-modal" command="show-modal">
                   Book Site Visit
                 </button>
-                <a href="#vision-mission-section" class="btn btn--outline-dark btn--pill">
-                  Our Vision &amp; Mission
-                </a>
               </div>
             </div>
 
@@ -344,14 +341,6 @@
                   <span class="about-portrait-dot" aria-hidden="true"></span>
                   <span>Sri Karthikeya Developers · Hyderabad</span>
                 </div>
-
-                <!-- Bottom Floating Frosted-Glass Architectural Ethos Card -->
-                <div class="about-portrait-bottom-bar">
-                  <div class="about-portrait-caption">
-                    <p class="about-portrait-caption__eyebrow">About Us</p>
-                    <h2 class="about-portrait-caption__title">Where Architecture, Nature &amp; Comfort Coexist</h2>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
@@ -365,7 +354,7 @@
     <section class="section about-vm-section" id="vision-mission-section" aria-labelledby="vm-heading">
       <div class="container">
         <div class="about-vm-header reveal-on-scroll">
-          <p class="eyebrow">-Vision &amp; Mission</p>
+          <p class="eyebrow">Vision &amp; Mission</p>
           <h2 class="section-title" id="vm-heading">Our Vision &amp; Mission</h2>
         </div>
 
@@ -398,25 +387,41 @@
                 width="2400" height="1350" loading="lazy" decoding="async" class="about-vm-img">
             </div>
 
-            <div class="about-vm-card about-vm-card--red">
+            <div class="about-vm-card about-vm-card--red" id="about-mission-card">
               <div class="about-vm-card__badge">
                 <span class="about-vm-card__num">02</span>
                 <span class="about-vm-card__label">Our Mission</span>
               </div>
-              <p class="about-vm-card__text">
-                At Rock Palms Abound Serenity, our mission is to craft living experiences that blend elegance,
-                functionality, and sustainability in perfect harmony. We aim to create homes that not only stand as
-                architectural landmarks but also enrich the lives of those who live within them. Every project we
-                undertake is driven by a deep understanding of our customers’ aspirations — to live in spaces that
-                reflect their values, aspirations, and desire for peace.
-              </p>
-              <p class="about-vm-card__text">
-                We are committed to excellence at every stage — from design innovation and material selection to
-                construction quality and after-sales support. Our goal is to foster communities that thrive on trust,
-                connection, and a shared appreciation for refined living. With every villa we build, we strive to set
-                new benchmarks in luxury, comfort, and environmental responsibility — ensuring that Rock Palms Abound
-                Serenity remains a symbol of thoughtful craftsmanship and timeless living.
-              </p>
+
+              <div class="about-vm-collapsible" id="about-mission-collapsible">
+                <p class="about-vm-card__text">
+                  At Rock Palms Abound Serenity, our mission is to craft living experiences that blend elegance,
+                  functionality, and sustainability in perfect harmony. We aim to create homes that not only stand as
+                  architectural landmarks but also enrich the lives of those who live within them. Every project we
+                  undertake is driven by a deep understanding of our customers’ aspirations — to live in spaces that
+                  reflect their values, aspirations, and desire for peace.
+                </p>
+                <p class="about-vm-card__text">
+                  We are committed to excellence at every stage — from design innovation and material selection to
+                  construction quality and after-sales support. Our goal is to foster communities that thrive on trust,
+                  connection, and a shared appreciation for refined living. With every villa we build, we strive to set
+                  new benchmarks in luxury, comfort, and environmental responsibility — ensuring that Rock Palms Abound
+                  Serenity remains a symbol of thoughtful craftsmanship and timeless living.
+                </p>
+              </div>
+
+              <button
+                type="button"
+                class="about-vm-toggle-btn"
+                id="about-mission-toggle"
+                aria-expanded="false"
+                aria-controls="about-mission-collapsible"
+              >
+                <span class="about-vm-toggle-btn__label">Read More</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </button>
             </div>
           </article>
         </div>
