@@ -408,8 +408,8 @@
     <section class="section ongoing-clubhouse-section" id="clubhouse-amenities-section" aria-labelledby="clubhouse-heading">
       <div class="container">
         <!-- Top Header + Option A / Option B Switcher -->
-        <div class="amenities-map-header reveal-on-scroll" id="amenities-map-header">
-          <div class="amenities-map-header__copy" id="amenities-header-copy">
+        <div class="amenities-map-header is-option-b reveal-on-scroll" id="amenities-map-header">
+          <div class="amenities-map-header__copy is-hidden" id="amenities-header-copy" hidden>
             <p class="eyebrow">Leisure, Wellness &amp; Community Living</p>
             <h2 class="section-title" id="clubhouse-heading" style="margin-bottom: 0;">Club House &amp; Amenities</h2>
           </div>
@@ -417,17 +417,17 @@
           <div class="floorplan-size-tabs" id="amenities-view-switcher" role="group" aria-label="Switch between Aerial Map Pinpoints and Split List View">
             <button
               type="button"
-              class="floorplan-size-btn is-active"
+              class="floorplan-size-btn"
               data-amenities-view="option-a"
-              aria-pressed="true"
+              aria-pressed="false"
             >
               Option A: Aerial Map Pinpoints
             </button>
             <button
               type="button"
-              class="floorplan-size-btn"
+              class="floorplan-size-btn is-active"
               data-amenities-view="option-b"
-              aria-pressed="false"
+              aria-pressed="true"
             >
               Option B: Split List View
             </button>
@@ -437,7 +437,7 @@
         <!-- ==================================================================
              OPTION A: FULL-WIDTH AERIAL LAYOUT WITH MAP PINPOINTS & BOTTOM-LEFT ZONE 1 / ZONE 2 SWITCHER
              ================================================================== -->
-        <div class="amenities-option-panel" id="amenities-option-a">
+        <div class="amenities-option-panel is-hidden" id="amenities-option-a" hidden>
           <div class="aerial-map-stage" id="aerial-map-stage">
             <!-- ZONE 1 PANEL: Clubhouse, Pool & Arrival Plaza (Pinpoints 01–09) -->
             <div class="aerial-zone-panel is-active" data-zone-panel="zone1">
@@ -625,7 +625,7 @@
         <!-- ==================================================================
              OPTION B: ORIGINAL CLUB HOUSE (14 Facilities) & AMENITIES (12 Facilities)
              ================================================================== -->
-        <div class="amenities-option-panel is-hidden" id="amenities-option-b" hidden>
+        <div class="amenities-option-panel" id="amenities-option-b">
           <!-- Row 1: Club House (Left 14 Facilities | Right Club House Visual) -->
           <div class="clubhouse-split">
             <div class="clubhouse-facilities-col">
