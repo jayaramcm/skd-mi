@@ -3129,21 +3129,19 @@ li {
   box-shadow: 0 10px 26px rgba(199, 168, 86, 0.36);
 }
 
-/* Locked-In Villa Pair Width & Gap + Auto-Matched Height to Form Card */
+/* Single Expanded Visual Frame + Auto-Matched Height to Form Card */
 .cta-visual-pair {
   flex: 1;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: 1fr;
   align-items: stretch;
-  gap: 28px;
-  width: 78%;
+  width: 100%;
   max-width: 100%;
 }
 
 @media (max-width: 639px) {
   .cta-visual-pair {
     width: 100%;
-    gap: 16px;
   }
 }
 
