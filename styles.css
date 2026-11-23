@@ -4813,12 +4813,17 @@ li {
 .ongoing-clubhouse-section {
   background-color: var(--surface-white);
   color: var(--gray-xl);
-  padding-top: clamp(1.15rem, 2.2vh, 1.75rem);
-  padding-bottom: clamp(1.25rem, 2.5vh, 2rem);
+  padding-top: clamp(2.25rem, 4.5vw, 4rem);
+  padding-bottom: clamp(4rem, 7vw, 6.5rem);
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+.ongoing-clubhouse-section:has(#amenities-option-a:not(.is-hidden)) {
+  padding-top: clamp(1.25rem, 2.5vh, 2rem);
+  padding-bottom: clamp(2.25rem, 4.5vh, 3.5rem);
 }
 
 .ongoing-clubhouse-section .eyebrow {
