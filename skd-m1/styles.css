@@ -5493,7 +5493,7 @@ li {
 
 @media (min-width: 1080px) {
   .floorplan-unified-split {
-    grid-template-columns: minmax(0, 5.6fr) minmax(0, 6.4fr);
+    grid-template-columns: minmax(0, 6.2fr) minmax(0, 5.8fr);
     align-items: stretch;
   }
 }
